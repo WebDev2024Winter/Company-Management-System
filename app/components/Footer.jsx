@@ -39,8 +39,8 @@ const Footer = () => {
 
           <div className='flex flex-col justify-between px-4 py-2 space-y-2'>
             <a href='/' className='text-white hover:text-blue-500'>Home</a>
-            <a href='#' className='text-white hover:text-blue-500'>About</a>
-            <a href='#' className='text-white hover:text-blue-500'>Contact</a>
+            <a href='/About' className='text-white hover:text-blue-500'>About</a>
+            <a href='/Contact' className='text-white hover:text-blue-500'>Contact</a>
             <a href='#' className='text-white hover:text-blue-500'>Help</a>
           </div>
 
