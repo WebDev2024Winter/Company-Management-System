@@ -8,6 +8,7 @@ import Header from '../components/Header';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import Modal from '../components/Modal';
+import { connectToMongoDB } from '../lib/mongodb';
 
 const page = async () => {
     const [messages, setMessages] = useState([]);
@@ -17,14 +18,17 @@ const page = async () => {
     
 
     const { status, data: session } = useSession();
+    connectToMongoDB();
     const user = await Users.findOne({name: session?.user?.name})
 
     useEffect(async () => {
-    setMessages(await AdminDashboard.find());
+    setMessages(await AdminDashboard.find().sort({createdAt: -1}).limit(10));
     }, [])
 
     const handleAddDashboardMessage = async () => {
         await AdminDashboard.create({name: session.user.name, title: newMessageTitle, message: newMessageDesc});
+        const newMsg = await AdminDashboard.findOne().sort({createdAt: -1});
+        setMessages((prevMessages) => [...prevMessages, newMsg]);
     }
 
   return status === 'authenticated' ?
@@ -32,6 +36,11 @@ const page = async () => {
     <div className='bg-gray-800'>
         <Header/>
         <Navigation/>
+
+        
+        { user.admin ? (
+        <>
+        <div className='text-white text-sm font-semibold'> You are logged in as: {user.name} </div>
 
         <button
         onClick={() => setShowNewMessageModal(true)}
@@ -64,12 +73,18 @@ const page = async () => {
             </form>
         </Modal>
 
+        </>
+        ) : (
+          <div className='text-white text-sm font-semibold'> You are logged in as: {user.name} </div>
+        )}
+        
+
         <h1 className='text-3xl m-16 font-bold text-white font-mono'>Dashboard</h1>
             
 
         <ul className='mt-8'>
             {
-                messages.map(msg => (
+                messages.map((msg) => (
                 <li className="p-4 my-4 rounded-lg bg-gray-700" key={msg.id}>
                 <h3 className='text-xl font-bold text-white font-mono'>From: {msg.name}</h3>
                 <h1 className='text-2xl font-bold text-white font-mono'>{msg.title}</h1>

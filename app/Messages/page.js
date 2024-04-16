@@ -27,7 +27,6 @@ const page = async () => {
         setMessagesFromUser(await UserMessages.find({name: communicatingUser, toUser: session.user.name}).sort({createdAt: 'asc'}));
         setMessagesToUser(await UserMessages.find({name: session.user.name, toUser: communicatingUser}).sort({createdAt: 'asc'}));
 
-        var length = messagesFromUser.length + messagesToUser.length;
         var fromUserInt = 0;
         var toUserInt = 0;
         while((messagesFromUser.length > fromUserInt) && (messagesToUser.length > toUserInt))
@@ -45,6 +44,8 @@ const page = async () => {
     
     const handleAddUserMessage = async () => {
         await UserMessages.create({name: user.name, message: newMessage, toUser: communicatingUser});
+        const newMsg = await UserMessages.findOne().sort({createdAt: -1});
+        setMessagesToAndFromUser((prevMessages) => [...prevMessages, newMsg]);
     }
 
   return status === 'authenticated' ?
@@ -90,11 +91,11 @@ const page = async () => {
           type="text"
           placeholder="Text Messages"
           className='w-full p-2 m-2 rounded-md'
-          onChange={(e) => setNewMessage(e.target.value)}
+          onChange={async (e) => setNewMessage(e.target.value)}
           />
 
           <button className="justify-items-end bg-blue-700 hover:bg-blue-900 text-white font-semibold px-6 py-2"
-          onClick={() => handleAddUserMessage()}>
+          onClick={async () => handleAddUserMessage()}>
           Send
           </button>    
 
