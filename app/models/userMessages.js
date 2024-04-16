@@ -17,7 +17,7 @@ const UserMessagesSchema = new Schema ({
     { timestamps: true }
 );
 
-const UserMessages = model.UserMessages || mongoose.model("UserMessages", UserMessagesSchema);
+const UserMessages = model("UserMessages") || mongoose.model("UserMessages", UserMessagesSchema);
 
 
 export default UserMessages;

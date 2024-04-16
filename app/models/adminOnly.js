@@ -25,7 +25,7 @@ const AdminOnlySchema = new Schema ({
     { timestamps: true }
 );
 
-const AdminOnly = mongoose.models["AdminOnly"] ? mongoose.model("AdminOnly") : mongoose.model("AdminOnly", AdminOnlySchema);
+const AdminOnly = model("AdminOnly") || mongoose.model("AdminOnly", AdminOnlySchema);
 
 
 export default AdminOnly;

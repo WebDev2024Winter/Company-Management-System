@@ -1,7 +1,6 @@
 import mongoose, { Schema, model } from 'mongoose';
 
-const UserSchema = new Schema (
-    {
+const UserSchema = new Schema ({
         email: {
             type: String,
             required: true,
@@ -23,6 +22,6 @@ const UserSchema = new Schema (
     { timestamps: true }
 );
 
-const Users = mongoose.models["Users"] ? mongoose.model("Users") : mongoose.model("Users", UserSchema);
+const Users = model("Users") || mongoose.model("Users", UserSchema);
 
 export default Users;

@@ -17,7 +17,7 @@ const AdminDashboardSchema = new Schema ({
     { timestamps: true }
 );
 
-const AdminDashboard = model.AdminDashboard || mongoose.model("AdminDashboard", AdminDashboardSchema);
+const AdminDashboard = model("AdminDashboard") || mongoose.model("AdminDashboard", AdminDashboardSchema);
 
 
 export default AdminDashboard;

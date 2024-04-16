@@ -29,7 +29,7 @@ const AddressSchema = new Schema ({
     { timestamps: true }
 );
 
-const Addresses = mongoose.models["Addresses"] ? mongoose.model("Addresses") : mongoose.model("Addresses", AddressSchema);
+const Addresses = model("Addresses") || mongoose.model("Addresses", AddressSchema);
 
 
 export default Addresses;

@@ -19,7 +19,9 @@ const page = async () => {
     const { status, data: session } = useSession();
     const user = await Users.findOne({name: session?.user?.name})
 
+    useEffect(async () => {
     setMessages(await AdminDashboard.find());
+    }, [])
 
     const handleAddDashboardMessage = async () => {
         await AdminDashboard.create({name: session.user.name, title: newMessageTitle, message: newMessageDesc});

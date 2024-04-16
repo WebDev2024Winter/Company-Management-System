@@ -1,9 +1,11 @@
 "use client"
 import React from 'react'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 const page = () => {
     const { status, data: session } = useSession();
+    const Router = useRouter()
     
   return status === 'authenticated' ?
   (
@@ -16,7 +18,8 @@ const page = () => {
         </div>
     </div>
   ) : (
-    <div className='flex flex-col text-white text-xs justify-between items-center mt-24 p-2 space-y-2'> Please Login! </div>
+    <div className='flex flex-col text-white text-xs justify-between items-center mt-24 p-2 space-y-2'>
+    Please Login! {Router.replace('/')}</div>
   )
 }
 
